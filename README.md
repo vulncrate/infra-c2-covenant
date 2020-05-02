@@ -42,4 +42,9 @@ exit
 docker rm -f terraform  
 
 ## Ansible
-Maybe you don't want to host it on Digital Ocean and there isn't an API to create cloud infrastructure. Using Ansible you can configure the server.
+Maybe you don't want to host it on Digital Ocean and there isn't an API to create cloud infrastructure. Using Ansible you can configure the server.  
+
+Comming soon...
+
+## Vagrant
+Comming soonn...
