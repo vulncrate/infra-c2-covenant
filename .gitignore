@@ -1,5 +1,6 @@
-# ssh keys
+# ignore these files
 /ssh/*
+variables.tf
 
 # Local .terraform directories
 **/.terraform/*
