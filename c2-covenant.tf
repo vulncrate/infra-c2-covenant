@@ -43,9 +43,15 @@ resource "digitalocean_droplet" "c2-covenant" {
       "cd /opt/covenant/",
       "dotnet build",
       "dotnet publish --configuration Release",
-      # install nginx
+      # install nginx      
       "apt-get install -y nginx",
-      "shutdown -r",
+      # run covenant
+      "cd /opt/covenant/Covenant",
+      "dotnet run"      
+      # todo: setup nginx config proxy
+      # todo: certbot ssl
+      # todo: auto start c2
+      "shutdown -r",      
     ]
   }
 }
