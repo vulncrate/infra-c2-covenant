@@ -51,6 +51,7 @@ resource "digitalocean_droplet" "c2-covenant" {
       # todo: setup nginx config proxy
       # todo: certbot ssl
       # todo: auto start c2
+      # todo: ufw firewall
       "shutdown -r",      
     ]
   }
