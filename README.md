@@ -20,11 +20,11 @@ We stole the concept of relaying the requests through a HTTP/S and DNS Redirecto
 ## Terraform
 You will need to initialize the Terraform plugins. Run the init function first. I'm running Terraform on Windows in a Docker container in PowerShell. If you are using Linux, do change "${pwd}" to "$(pwd)". Once in the container you will need to change the permissions to execute and run the setup.sh script to configure your ssh keys properly.
 
-docker run -d -it --name terraform --entrypoint "/usr/bin/tail" -v ${pwd}:/workspace -w /workspace hashicorp/terraform:light -f /dev/null
+docker run -d -it --name terraform --entrypoint "/usr/bin/tail" -v ${pwd}:/workspace -w /workspace hashicorp/terraform:light -f /dev/null  
 docker exec -it terraform sh
 
-chmod +x setup.sh
-terraform apply
+chmod +x setup.sh  
+terraform apply  
 
 ### Initialize Terraform Plugins & Providers
 terraform init
@@ -37,9 +37,9 @@ Required variables are: sshdo, dotoken
 terraform plan
 
 ### Destroying & Removing the Container
-terraform destroy
-exit
-docker rm -f terraform
+terraform destroy  
+exit  
+docker rm -f terraform  
 
 ## Ansible
 Maybe you don't want to host it on Digital Ocean and there isn't an API to create cloud infrastructure. Using Ansible you can configure the server.
