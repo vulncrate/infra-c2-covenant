@@ -18,7 +18,7 @@ We stole the concept of relaying the requests through a HTTP/S and DNS Redirecto
 [https://rastamouse.me/2017/08/automated-red-team-infrastructure-deployment-with-terraform-part-1/](https://rastamouse.me/2017/08/automated-red-team-infrastructure-deployment-with-terraform-part-1/)
 
 ## Terraform
-You will need to initialize the Terraform plugins. Run the init function first. I'm running Terraform on Windows in a Docker container in PowerShell. If you are using Linux, do change "${pwd}" to "$(pwd)". Once in the container you will need to change the permissions to execute and run the setup.sh script to configure your ssh keys properly.
+I'm running Terraform on Windows in a Docker container in PowerShell. If you are using Linux, do change "${pwd}" to "$(pwd)". Once in the container you will need to change the permissions to execute and run the setup.sh script to configure your ssh keys properly. You will also need to initialize the Terraform plugins. Run the init function after running the setup.sh script.
 
 docker run -d -it --name terraform --entrypoint "/usr/bin/tail" -v ${pwd}:/workspace -w /workspace hashicorp/terraform:light -f /dev/null  
 docker exec -it terraform sh
