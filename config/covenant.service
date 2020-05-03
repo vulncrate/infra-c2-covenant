@@ -1,15 +1,14 @@
 [Unit]
-Description=Covenant C2 Service
+Description=Covenant C2 Service .NET Core
 
 [Service]
-WorkingDirectory=/opt/covenant/Covenant/
+WorkingDirectory=/opt/covenant/Covenant/bin/Release/netcoreapp2.2/linux-x64/publish/Covenant/
 ExecStart=/usr/bin/dotnet /opt/covenant/Covenant/bin/Release/netcoreapp2.2/linux-x64/publish/Covenant.dll
 Restart=always
-# Restart service after 10 seconds if the dotnet service crashes:
 RestartSec=10
 SyslogIdentifier=dotnet-covenant
 User=www-data
-Environment=ASPNETCORE_ENVIRONMENT=Development
+Environment=ASPNETCORE_ENVIRONMENT=Production
 
 [Install]
 WantedBy=multi-user.target

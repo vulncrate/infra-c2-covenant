@@ -23,7 +23,7 @@ resource "digitalocean_droplet" "c2-covenant-relay" {
     user = "root"
     type = "ssh"
     host = self.ipv4_address
-    private_key = "${file(var.ssh-private-key)}"
+    private_key = file(var.ssh-private-key)
     timeout = "2m"
   }
 
