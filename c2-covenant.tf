@@ -25,7 +25,17 @@ resource "digitalocean_droplet" "c2-covenant" {
     host = self.ipv4_address
     private_key = "${file(var.ssh-private-key)}"
     timeout = "2m"
-  }  
+  }
+
+  provisioner "file" {
+    source = "config/nginx.covenant"
+    destination = "/tmp/nginx.covenant"
+  }
+
+  provisioner "file" {
+    source = "config/covenant.service"
+    destination = "/etc/systemd/system/covenant.service"
+  }
 
   provisioner "remote-exec" {
     inline = [
@@ -40,19 +50,29 @@ resource "digitalocean_droplet" "c2-covenant" {
       "apt-get install -y apt-transport-https",
       "apt-get update -y",
       "apt-get install -y dotnet-sdk-2.2",
+      "apt-get install -y dotnet-sdk-3.1",
       "cd /opt/covenant/",
       "dotnet build",
-      "dotnet publish --configuration Release",
-      # install nginx      
-      "apt-get install -y nginx",
-      # run covenant
-      "cd /opt/covenant/Covenant",
-      "dotnet run"      
-      # todo: setup nginx config proxy
+      "dotnet publish --configuration Release -r linux-x64 --self-contained false",
+      "sudo setcap CAP_NET_BIND_SERVICE=+eip /usr/bin/dotnet"
+      # todo: install docker
+
+      # set up nginx proxy
+      "apt-get install -y nginx",   
+      "rm -f /etc/nginx/sites-available/default",
+      "rm -f /etc/nginx/sites-enabled/default",
+      "mv /tmp/nginx.covenant /etc/nginx/sites-available/nginx.covenant",
+      "ln -s /etc/nginx/sites-available/nginx.covenant /etc/nginx/sites-enabled/nginx.covenant",
+
       # todo: certbot ssl
+
       # todo: auto start c2
+
       # todo: ufw firewall
-      "shutdown -r",      
+
+      # enable covenant service
+      "systemctl enable covenant.service",
+      "shutdown -r",
     ]
   }
 }
