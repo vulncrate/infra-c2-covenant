@@ -7,7 +7,7 @@ ExecStart=/usr/bin/dotnet run -p /opt/covenant/Covenant/Covenant.csproj
 Restart=always
 RestartSec=10
 SyslogIdentifier=dotnet-covenant
-User=www-data
+User=root
 Environment=ASPNETCORE_ENVIRONMENT=Production
 
 [Install]

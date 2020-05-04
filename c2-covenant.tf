@@ -53,32 +53,34 @@ resource "digitalocean_droplet" "c2-covenant" {
       "sudo setcap CAP_NET_BIND_SERVICE=+eip /usr/bin/dotnet",
 
       # "apt-get install -y dotnet-sdk-3.1",
-      "mkdir -p /var/covenant/",
+      "mkdir -p /var/covenant/ /var/www/.dotnet/",
       "chown www-data:www-data -R /var/covenant/",
+      "chown www-data:www-data -R /var/www/",
 
       "cd /opt/covenant/",
+      "dotnet restore",
       "dotnet build",
 
       # set up nginx proxy
-      "apt-get install -y nginx",   
-      "rm -f /etc/nginx/sites-available/default",
-      "rm -f /etc/nginx/sites-enabled/default",
-      "mv /tmp/nginx.covenant /etc/nginx/sites-available/nginx.covenant",
-      "ln -s /etc/nginx/sites-available/nginx.covenant /etc/nginx/sites-enabled/nginx.covenant",
+      # "apt-get install -y nginx",   
+      # "rm -f /etc/nginx/sites-available/default",
+      # "rm -f /etc/nginx/sites-enabled/default",
+      # "mv /tmp/nginx.covenant /etc/nginx/sites-available/nginx.covenant",
+      # "ln -s /etc/nginx/sites-available/nginx.covenant /etc/nginx/sites-enabled/nginx.covenant",
 
       # todo: certbot ssl
-      "add-apt-repository ppa:certbot/certbot -y",
-      "apt-get update -y",
-      "apt-get install -y python-certbot-nginx",      
-      "echo '0 12 * * * /usr/bin/certbot renew --quiet' > /root/covenantcron",
-      "crontab /root/covenantcron",
+      # "add-apt-repository ppa:certbot/certbot -y",
+      # "apt-get update -y",
+      # "apt-get install -y python-certbot-nginx",      
+      # "echo '0 12 * * * /usr/bin/certbot renew --quiet' > /root/covenantcron",
+      # "crontab /root/covenantcron",
 
       # todo: firewall
 
       # enable covenant service
+      "systemctl daemon-reload",
       "systemctl enable covenant.service",
       "systemctl start covenant.service",
-      "/usr/bin/dotnet /opt/covenant/Covenant/bin/Release/netcoreapp2.2/linux-x64/publish/Covenant.dll &",
       "shutdown -r",
     ]
   }

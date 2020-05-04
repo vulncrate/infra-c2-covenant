@@ -52,3 +52,4 @@ Comming soonn...
 ## Covenant Service
 systemctl status covenant.service
 journalctl -fu covenant.service
+journalctl -p 3 -u covenant.service
