@@ -53,12 +53,11 @@ resource "digitalocean_droplet" "c2-covenant" {
       "sudo setcap CAP_NET_BIND_SERVICE=+eip /usr/bin/dotnet",
 
       # "apt-get install -y dotnet-sdk-3.1",
+      "mkdir -p /var/covenant/",
+      "chown www-data:www-data -R /var/covenant/",
+
       "cd /opt/covenant/",
       "dotnet build",
-      "dotnet publish --configuration Release -r linux-x64 --self-contained false",
-      #"mkdir -p /var/covenant/",
-      #"chown www-data:www-data -R /var/covenant/"
-      #"cp /opt/covenant/Covenant/bin/Release/netcoreapp2.2/linux-x64/publish/* /var/covenant/",
 
       # set up nginx proxy
       "apt-get install -y nginx",   
@@ -70,15 +69,16 @@ resource "digitalocean_droplet" "c2-covenant" {
       # todo: certbot ssl
       "add-apt-repository ppa:certbot/certbot -y",
       "apt-get update -y",
-      "apt-get install -y python-certbot-nginx",
+      "apt-get install -y python-certbot-nginx",      
+      "echo '0 12 * * * /usr/bin/certbot renew --quiet' > /root/covenantcron",
+      "crontab /root/covenantcron",
 
-      # todo: auto start c2
-
-      # todo: ufw firewall
+      # todo: firewall
 
       # enable covenant service
       "systemctl enable covenant.service",
       "systemctl start covenant.service",
+      "/usr/bin/dotnet /opt/covenant/Covenant/bin/Release/netcoreapp2.2/linux-x64/publish/Covenant.dll &",
       "shutdown -r",
     ]
   }

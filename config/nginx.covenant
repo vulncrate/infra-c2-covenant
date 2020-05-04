@@ -1,5 +1,10 @@
 server {                                                                     
     listen 80;
+    root /var/www/html;
+
+    # RSA certificate (managed by certbot)
+    ssl_certificate /etc/letsencrypt/live/covenant/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/covenant/privkey.pem;
 
     location / {
         proxy_pass http://localhost:7442;

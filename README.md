@@ -48,3 +48,7 @@ Comming soon...
 
 ## Vagrant
 Comming soonn...
+
+## Covenant Service
+systemctl status covenant.service
+journalctl -fu covenant.service
